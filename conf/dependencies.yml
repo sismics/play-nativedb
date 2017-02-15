@@ -1,0 +1,4 @@
+self: play -> nativedb 0.1
+
+require:
+    - play
