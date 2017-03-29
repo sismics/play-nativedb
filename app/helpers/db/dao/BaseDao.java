@@ -29,12 +29,33 @@ public abstract class BaseDao<T, C> {
     /**
      * Search items by criteria.
      *
+     * @param list Paginated list (updated by side effects)
+     * @param criteria Search criteria
+     * @param sortCriteria Sort criteria
+     */
+    public void findByCriteria(PaginatedList<T> list, C criteria, SortCriteria sortCriteria) {
+        PaginatedLists.executePaginatedQuery(list, getQueryParam(criteria, null), sortCriteria);
+    }
+
+    /**
+     * Search items by criteria.
+     *
      * @param criteria Search criteria
      * @param sortCriteria Sort criteria
      * @param filterCriteria Filter criteria
      */
     public List<T> findByCriteria(C criteria, SortCriteria sortCriteria, FilterCriteria filterCriteria) {
         return PaginatedLists.executeQuery(getQueryParam(criteria, filterCriteria), sortCriteria);
+    }
+
+    /**
+     * Search items by criteria.
+     *
+     * @param criteria Search criteria
+     * @param sortCriteria Sort criteria
+     */
+    public List<T> findByCriteria(C criteria, SortCriteria sortCriteria) {
+        return PaginatedLists.executeQuery(getQueryParam(criteria, null), sortCriteria);
     }
 
     /**
