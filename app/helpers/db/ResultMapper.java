@@ -94,6 +94,11 @@ public abstract class ResultMapper<T> {
                 null;
     }
 
+    protected BigDecimal bigDecimalValue(Object o) {
+        return o == null ? null :
+                o instanceof BigDecimal ? (BigDecimal) o :
+                null;
+    }
     protected Date dateValue(Object o) {
         return (Date) o;
     }
