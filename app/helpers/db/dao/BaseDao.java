@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Base DAO.
- * 
+ *
  * @author jtremeaux
  */
 public abstract class BaseDao<T, C> {
@@ -67,14 +67,34 @@ public abstract class BaseDao<T, C> {
         return findByCriteria(criteria, null, null);
     }
 
-
     /**
      * Search items by criteria.
      *
      * @param criteria Search criteria
      */
     public T findFirstByCriteria(C criteria) {
-        List<T> list = PaginatedLists.executeQuery(getQueryParam(criteria, null), null);
+        return findFirstByCriteria(criteria, null, null);
+    }
+
+    /**
+     * Search items by criteria.
+     *
+     * @param criteria Search criteria
+     * @param sortCriteria Sort criteria
+     */
+    public T findFirstByCriteria(C criteria, SortCriteria sortCriteria) {
+        return findFirstByCriteria(criteria, sortCriteria, null);
+    }
+
+    /**
+     * Search items by criteria.
+     *
+     * @param criteria Search criteria
+     * @param sortCriteria Sort criteria
+     * @param filterCriteria Filter criteria
+     */
+    public T findFirstByCriteria(C criteria, SortCriteria sortCriteria, FilterCriteria filterCriteria) {
+        List<T> list = PaginatedLists.executeQuery(getQueryParam(criteria, filterCriteria), sortCriteria);
         return !list.isEmpty() ? list.iterator().next() : null;
     }
 
