@@ -67,7 +67,7 @@ public class PaginatedLists {
     public static <E> List<E> executeQuery(QueryParam queryParam, SortCriteria sortCriteria) {
         StringBuilder sb = new StringBuilder(getQueryString(queryParam));
         if (sortCriteria != null) {
-            String alias = getAlias(queryParam.getQueryString());
+            String alias = getAlias(queryParam);
             sb.append(getOrderByClause(sortCriteria, alias));
         }
 
@@ -125,14 +125,17 @@ public class PaginatedLists {
     /**
      * Returns the table alias of the entity queried on.
      *
-     * @param query Initial query
+     * @param queryParam The query param
      * @return SQL alias
      */
-    public static String getAlias(String query) {
+    public static String getAlias(QueryParam queryParam) {
+        if (queryParam.getDefaultTableAlias() != null) {
+            return queryParam.getDefaultTableAlias();
+        }
         Pattern p = Pattern.compile("select +(distinct )?(\\w+?)\\..*");
-        Matcher m = p.matcher(query);
+        Matcher m = p.matcher(queryParam.getQueryString());
         if (!m.matches()) {
-            throw new RuntimeException("Cannot find entity alias in query: " + query);
+            throw new RuntimeException("Cannot find entity alias in query: " + queryParam.getQueryString());
         }
         return m.group(2);
     }
@@ -168,7 +171,7 @@ public class PaginatedLists {
     private static <E> void executeResultQuery(PaginatedList<E> paginatedList, QueryParam queryParam, SortCriteria sortCriteria) {
         StringBuilder sb = new StringBuilder(getQueryString(queryParam));
         if (sortCriteria != null) {
-            String alias = getAlias(queryParam.getQueryString());
+            String alias = getAlias(queryParam);
             sb.append(getOrderByClause(sortCriteria, alias));
         }
 

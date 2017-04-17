@@ -13,6 +13,11 @@ import java.util.Map;
 public class QueryParam {
 
     /**
+     * Default table alias.
+     */
+    private String defaultTableAlias;
+
+    /**
      * Query string.
      */
     private String queryString;
@@ -71,6 +76,10 @@ public class QueryParam {
         this(queryString, criteriaList, parameterMap, filterCriteria, null, resultMapper);
     }
 
+    public String getDefaultTableAlias() {
+        return defaultTableAlias;
+    }
+
     public String getQueryString() {
         return queryString;
     }
@@ -97,5 +106,10 @@ public class QueryParam {
 
     public ResultMapper getResultMapper() {
         return resultMapper;
+    }
+
+    public QueryParam setDefaultTableAlias(String defaultTableAlias) {
+        this.defaultTableAlias = defaultTableAlias;
+        return this;
     }
 }
