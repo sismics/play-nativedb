@@ -20,7 +20,7 @@ It uses the native JPA API internally and doesn't require any other library.
 
 ```
 require:
-    - nativedb -> nativedb 0.1
+    - nativedb -> nativedb 0.4
 
 repositories:
     - nativedb:
