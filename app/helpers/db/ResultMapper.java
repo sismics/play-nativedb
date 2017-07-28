@@ -64,9 +64,19 @@ public abstract class ResultMapper<T> {
                 null;
     }
 
+    protected Short shortValue(Object o) {
+        return o == null ? null :
+                o instanceof Short ? (Short) o :
+                o instanceof Integer ? ((Integer) o).shortValue() :
+                o instanceof BigInteger ? ((BigInteger) o).shortValue() :
+                o instanceof String ? Short.valueOf((String) o) :
+                null;
+    }
+
     protected Integer intValue(Object o) {
         return o == null ? null :
                 o instanceof Integer ? (Integer) o :
+                o instanceof Short ? (Short) o :
                 o instanceof BigInteger ? ((BigInteger) o).intValue() :
                 o instanceof String ? Integer.valueOf((String) o) :
                 null;
