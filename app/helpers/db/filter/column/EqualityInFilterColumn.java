@@ -1,4 +1,6 @@
-package helpers.db.filter;
+package helpers.db.filter.column;
+
+import helpers.db.filter.FilterColumn;
 
 import java.util.ArrayList;
 import java.util.List;

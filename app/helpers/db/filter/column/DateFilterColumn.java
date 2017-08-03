@@ -1,6 +1,7 @@
-package helpers.db.filter;
+package helpers.db.filter.column;
 
 import helpers.db.Db;
+import helpers.db.filter.FilterColumn;
 import org.joda.time.LocalDate;
 
 import java.util.regex.Matcher;

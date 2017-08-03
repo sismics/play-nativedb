@@ -34,7 +34,7 @@ public abstract class FilterColumn {
     public abstract Object getParamValue();
 
     public String getParamName() {
-        return "filtercolumn_" + column;
+        return "filtercolumn_" + hashCode();
     }
 
     public boolean hasParam() {

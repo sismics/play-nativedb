@@ -1,4 +1,4 @@
-package helpers.db.filter;
+package helpers.db.filter.column;
 
 import org.apache.commons.lang.StringUtils;
 

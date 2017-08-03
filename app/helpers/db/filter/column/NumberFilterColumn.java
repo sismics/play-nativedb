@@ -1,4 +1,6 @@
-package helpers.db.filter;
+package helpers.db.filter.column;
+
+import helpers.db.filter.FilterColumn;
 
 /**
  * Filter a text column containing a number (integer or decimal).

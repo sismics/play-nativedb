@@ -1,4 +1,6 @@
-package helpers.db.filter;
+package helpers.db.filter.column;
+
+import helpers.db.filter.FilterColumn;
 
 /**
  * Filter a text column with the usual string comparison operators.
