@@ -1,5 +1,6 @@
 package helpers.db;
 
+import helpers.db.query.Query;
 import org.hibernate.ejb.EntityManagerImpl;
 import org.hibernate.internal.SessionImpl;
 import play.Play;
@@ -16,6 +17,16 @@ public class Db {
      */
     public static SessionImpl getSession() {
         return (SessionImpl) ((EntityManagerImpl) JPA.em()).getSession();
+    }
+
+    /**
+     * Build a new native (SQL) query.
+     *
+     * @param queryString The query string
+     * @return The query
+     */
+    public static Query query(String queryString) {
+        return new Query(queryString);
     }
 
     public static String getDateTrunc(String field) {

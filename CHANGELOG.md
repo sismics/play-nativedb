@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.7 (2017-08-16)
+- Add native query API that handle null values properly
 ### Version 0.6 (2017-08-03)
 - Allow several filters with the same name
 ### Version 0.5 (2017-07-27)
