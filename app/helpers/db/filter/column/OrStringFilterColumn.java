@@ -27,7 +27,7 @@ public class OrStringFilterColumn extends StringFilterColumn {
             StringFilterColumn f = new StringFilterColumn(c, filter) {
                 @Override
                 public String getParamName() {
-                    return "filtercolumn_" + OrStringFilterColumn.this.column;
+                    return "filtercolumn_" + OrStringFilterColumn.this.hashCode();
                 }
             };
             predicates.add(f.getPredicate());
