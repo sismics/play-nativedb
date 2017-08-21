@@ -1,4 +1,4 @@
-self: play -> nativedb 0.7.1
+self: play -> nativedb 0.7.2
 
 require:
     - play
