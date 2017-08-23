@@ -49,6 +49,36 @@ public class Db {
         }
     }
 
+    public static String getYearTrunc(String field) {
+        if (Db.isDriverH2()) {
+            return "year(" + field + ")";
+        } else if (Db.isDriverPostgresql()) {
+            return "date_trunc('year', " + field + ")";
+        } else {
+            throw new RuntimeException("Unknown DB: " + Db.getDriver());
+        }
+    }
+
+    public static String getMonthTrunc(String field) {
+        if (Db.isDriverH2()) {
+            return "parsedatetime (year(" + field + ") || '-' || month(" + field + ") || '-01', 'yyyy-MM-dd')";
+        } else if (Db.isDriverPostgresql()) {
+            return "date_trunc('month', " + field + ")";
+        } else {
+            throw new RuntimeException("Unknown DB: " + Db.getDriver());
+        }
+    }
+
+    public static String getWeekTrunc(String field) {
+        if (Db.isDriverH2()) {
+            return "week(" + field + ")";
+        } else if (Db.isDriverPostgresql()) {
+            return "date_trunc('week', " + field + ")";
+        } else {
+            throw new RuntimeException("Unknown DB: " + Db.getDriver());
+        }
+    }
+
     public static String getStringAgg(String field, String orderBy, String separator) {
         if (isDriverH2()) {
             return "group_concat(" + field + " order by " + orderBy + " separator '" + separator + "')";
