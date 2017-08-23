@@ -37,7 +37,7 @@ public class Query {
     }
 
     public Query setParameter(String key, Long value) {
-        getInternalQuery().setParameter(key, value, StandardBasicTypes.BIG_INTEGER);
+        getInternalQuery().setParameter(key, value, StandardBasicTypes.LONG);
         return this;
     }
 
