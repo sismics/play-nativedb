@@ -1,4 +1,7 @@
 ## Change Log
+### Version 0.7.3 (2017-08-23)
+- Fix mapping of long values
+- Add more date utils
 ### Version 0.7.2 (2017-08-21)
 - Support null value for more types
 ### Version 0.7.1 (2017-08-18)
