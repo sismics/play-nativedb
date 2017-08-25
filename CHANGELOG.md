@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.8.0 (2017-08-25)
+- Add admin console
 ### Version 0.7.3 (2017-08-23)
 - Fix mapping of long values
 - Add more date utils

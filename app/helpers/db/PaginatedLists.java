@@ -30,6 +30,11 @@ public class PaginatedLists {
     private static final int MAX_PAGE_SIZE = 10000;
 
     /**
+     * Callback on native query.
+     */
+    public static OnNativeQuery onNativeQuery;
+
+    /**
      * Constructs a paginated list.
      *
      * @param pageSize Size of the page
@@ -75,6 +80,10 @@ public class PaginatedLists {
         mapQueryParam(query, queryParam);
         mapFilterColumn(query, queryParam);
 
+        if (onNativeQuery != null) {
+            onNativeQuery.run(query);
+        }
+
         List<E> resultList = query.getResultList();
         if (queryParam.getResultMapper() != null) {
             return queryParam.getResultMapper().map(resultList);
@@ -103,6 +112,11 @@ public class PaginatedLists {
         Query query = JPA.em().createNativeQuery(getNativeCountQuery(queryParam));
         mapQueryParam(query, queryParam);
         mapFilterColumn(query, queryParam);
+
+        if (onNativeQuery != null) {
+            onNativeQuery.run(query);
+        }
+
         Number resultCount = (Number) query.getSingleResult();
         paginatedList.setTotalRowCount(resultCount.intValue());
     }
@@ -181,6 +195,10 @@ public class PaginatedLists {
 
         query.setFirstResult(paginatedList.getOffset());
         query.setMaxResults(paginatedList.getLimit());
+
+        if (onNativeQuery != null) {
+            onNativeQuery.run(query);
+        }
 
         List<E> resultList = query.getResultList();
         if (queryParam.getResultMapper() != null) {

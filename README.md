@@ -14,13 +14,15 @@ It uses the native JPA API internally and doesn't require any other library.
 
 - Wrapper functions for DB compatibility (H2, PostgreSQL, MySQL)
  
+- Admin console to debug queries in realtime
+ 
 # How to use
 
 ####  Add the dependency to your `dependencies.yml` file
 
 ```
 require:
-    - nativedb -> nativedb 0.7.3
+    - nativedb -> nativedb 0.8.0
 
 repositories:
     - nativedb:
@@ -28,6 +30,27 @@ repositories:
         artifact:   "http://release.sismics.com/repo/play/[module]-[revision].zip"
         contains:
             - nativedb -> *
+```
+
+# Enable the admin console
+
+The admin console allows you to monitor queries in realtime.
+
+Add the following parameter to enable the admin console:
+
+```
+nativedb.console.enabled=true
+```
+
+Note: the admin console is enabled by default in Dev mode.
+
+### Secure the admin console
+
+Add the following parameter to secure the admin console
+
+```
+nativedb.console.username=console
+nativedb.console.password=pass1234
 ```
 
 # License

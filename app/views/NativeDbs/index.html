@@ -1,0 +1,28 @@
+<html>
+<head>
+    <script>
+        var logsUrl = '@@{controllers.NativeDbWebsockets.logs()}';
+        #{if request.isRequestSecure()}
+        logsUrl = logsUrl.replace('ws://', 'wss://')
+        #{/if}
+        var socket = new WebSocket(logsUrl);
+        socket.onmessage = function (event) {
+            document.getElementById('logs').innerHTML = event.data + "\n" + document.getElementById('logs').innerHTML;
+        }
+    </script>
+</head>
+<body>
+<h1>Native DB console</h1>
+
+<h2>Configuration</h2>
+
+<form method="POST" action="@{NativeDbs.updateNativeDb}">
+    <label for="logQuery">Enable logging: </label> <input type="checkbox" id="logQuery" name="logQuery" #{if nativeDbPlugin.logQuery}checked#{/if} /> <br/>
+    <input type="submit" value="Submit"/>
+</form>
+
+#{if flash.success}<p>Configuration updated successfully!</p>#{/if}
+
+<pre id="logs"></pre>
+</body>
+</html>
