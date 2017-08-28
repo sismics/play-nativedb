@@ -3,12 +3,15 @@ package helpers.db;
 import helpers.db.filter.FilterColumn;
 import helpers.db.sort.SortColumn;
 import helpers.db.sort.SortCriteria;
+import helpers.reflection.ReflectionUtil;
+import org.hibernate.internal.SQLQueryImpl;
 import play.db.jpa.JPA;
 
 import javax.persistence.Query;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -259,7 +262,7 @@ public class PaginatedLists {
 
     private static void mapQueryParam(Query query, QueryParam queryParam) {
         for (Map.Entry<String, Object> parameter : queryParam.getParameterMap().entrySet()) {
-            query.setParameter(parameter.getKey(), parameter.getValue());
+            setParameter(query, parameter.getKey(), parameter.getValue());
         }
     }
 
@@ -267,9 +270,17 @@ public class PaginatedLists {
         if (queryParam.getFilterCriteria() != null) {
             for (FilterColumn filterColumn : queryParam.getFilterCriteria().getFilterColumnList()) {
                 if (filterColumn.hasParam()) {
-                    query.setParameter(filterColumn.getParamName(), filterColumn.getParamValue());
+                    setParameter(query, filterColumn.getParamName(), filterColumn.getParamValue());
                 }
             }
+        }
+    }
+
+    private static void setParameter(Query query, String key, Object value) {
+        if (value instanceof UUID) {
+            helpers.db.query.Query.setParameterUUID((SQLQueryImpl) ReflectionUtil.getFieldValue(query, "query"), key, value);
+        } else {
+            query.setParameter(key, value);
         }
     }
 }

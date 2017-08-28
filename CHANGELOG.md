@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.8.1 (2017-08-28)
+- Add UUID support for H2 and PostgreSQL
 ### Version 0.8.0 (2017-08-25)
 - Add admin console
 ### Version 0.7.3 (2017-08-23)

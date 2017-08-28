@@ -8,9 +8,11 @@ import java.io.StringWriter;
 import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.sql.Clob;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -40,6 +42,18 @@ public abstract class ResultMapper<T> {
     protected String characterValueAsString(Object o) {
         Character value = characterValue(o);
         return value != null ? value.toString() : null;
+    }
+
+    protected UUID uuidValue(Object o) {
+        if (o instanceof UUID) {
+            return (UUID) o;
+        } else if (o instanceof byte[]) {
+            ByteBuffer bb = ByteBuffer.wrap((byte[]) o);
+            long high = bb.getLong();
+            long low = bb.getLong();
+            return new UUID(high, low);
+        }
+        return null;
     }
 
     protected String stringValue(Object o) {
