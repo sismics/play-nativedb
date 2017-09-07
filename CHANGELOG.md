@@ -1,4 +1,7 @@
 ## Change Log
+### Version 0.9.0 (2017-09-07)
+- Add basic client-side (Java) pagination / filtering / sorting
+- Fix "Dropping message" warning
 ### Version 0.8.1 (2017-08-28)
 - Add UUID support for H2 and PostgreSQL
 ### Version 0.8.0 (2017-08-25)
