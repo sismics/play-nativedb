@@ -1,10 +1,10 @@
 package plugins.nativedb;
 
 import helpers.db.PaginatedLists;
+import helpers.nativedb.CappedEventStream;
 import org.hibernate.ejb.QueryImpl;
 import play.Play;
 import play.PlayPlugin;
-import play.libs.F;
 import play.mvc.Router;
 
 import javax.persistence.Parameter;
@@ -19,7 +19,7 @@ public class NativeDbPlugin extends PlayPlugin {
 
     public boolean logQuery;
 
-    public F.EventStream<String> events = new F.EventStream<>();
+    public CappedEventStream<String> events = new CappedEventStream<>();
 
     private static final String NATIVEDB_PREFIX = "nativedb";
 
