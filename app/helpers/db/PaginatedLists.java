@@ -1,6 +1,8 @@
 package helpers.db;
 
 import helpers.db.filter.FilterColumn;
+import helpers.db.filter.FilterCriteria;
+import helpers.db.pagination.client.ClientPagination;
 import helpers.db.sort.SortColumn;
 import helpers.db.sort.SortCriteria;
 import helpers.reflection.ReflectionUtil;
@@ -282,5 +284,16 @@ public class PaginatedLists {
         } else {
             query.setParameter(key, value);
         }
+    }
+
+    /**
+     * Paginate, filter and order a list on client (Java) side.
+     *
+     * @param paginatedList The list to paginate
+     * @param fullList The full list of results
+     * @param <E> The type of elements
+     */
+    public static <E> void executeClientQuery(PaginatedList<E> paginatedList, List<E> fullList, SortCriteria sortCriteria, FilterCriteria filterCriteria) {
+        ClientPagination.paginate(paginatedList, fullList, sortCriteria, filterCriteria);
     }
 }
