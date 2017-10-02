@@ -68,7 +68,35 @@ public abstract class BaseDao<T, C> {
     }
 
     /**
-     * Search items by criteria.
+     * Find one item by criteria.
+     * Throws an exception if more than one item is found.
+     *
+     * @param criteria Search criteria
+     */
+    public T findOneByCriteria(C criteria) {
+        return findOneByCriteria(criteria, null);
+    }
+
+    /**
+     * Find one item by criteria.
+     * Throws an exception if more than one item is found.
+     *
+     * @param criteria Search criteria
+     * @param filterCriteria Filter criteria
+     */
+    public T findOneByCriteria(C criteria, FilterCriteria filterCriteria) {
+        List<T> list = PaginatedLists.executeQuery(getQueryParam(criteria, filterCriteria), null);
+        if (list.isEmpty()) {
+            return null;
+        }
+        if (list.size() > 1) {
+            throw new RuntimeException("nativedb.nonunique.error");
+        }
+        return list.iterator().next();
+    }
+
+    /**
+     * Find the first item by criteria.
      *
      * @param criteria Search criteria
      */
@@ -77,7 +105,7 @@ public abstract class BaseDao<T, C> {
     }
 
     /**
-     * Search items by criteria.
+     * Find the first item by criteria.
      *
      * @param criteria Search criteria
      * @param sortCriteria Sort criteria
@@ -87,7 +115,7 @@ public abstract class BaseDao<T, C> {
     }
 
     /**
-     * Search items by criteria.
+     * Find the first item by criteria.
      *
      * @param criteria Search criteria
      * @param sortCriteria Sort criteria

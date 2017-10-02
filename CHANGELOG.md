@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.10.0 (2017-10-02)
+- Add findOneByCriteria() method that throws an exception if more than one row is returned. 
 ### Version 0.9.0 (2017-09-07)
 - Add basic client-side (Java) pagination / filtering / sorting
 - Fix "Dropping message" warning
