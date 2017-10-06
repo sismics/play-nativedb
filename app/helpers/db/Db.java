@@ -79,11 +79,11 @@ public class Db {
         }
     }
 
-    public static String getStringAgg(String field, String orderBy, String separator) {
+    public static String getStringAgg(String field, String orderBy, String separator, boolean distinct) {
         if (isDriverH2()) {
-            return "group_concat(" + field + " order by " + orderBy + " separator '" + separator + "')";
+            return "group_concat(" + (distinct ? "distinct " : "") + field + " order by " + orderBy + " separator '" + separator + "')";
         } else if (isDriverPostgresql()) {
-            return "string_agg(" + field + ", '" + separator + "' order by " + orderBy + ")";
+            return "string_agg(" + (distinct ? "distinct " : "") + field + ", '" + separator + "' order by " + orderBy + ")";
         } else {
             throw new RuntimeException("Unknown DB: " + getDriver());
         }
@@ -118,7 +118,7 @@ public class Db {
     }
 
     public static String getStringAgg(String field) {
-        return getStringAgg(field, field, ", ");
+        return getStringAgg(field, field, ", ", false);
     }
 
     public static String escapeLike(String value) {
