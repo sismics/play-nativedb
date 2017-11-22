@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.11.0 (2017-11-22)
+- Add UUID and boolean filters 
 ### Version 0.10.1 (2017-10-05)
 - Add distinct to getStringAgg() method. 
 ### Version 0.10.0 (2017-10-02)
