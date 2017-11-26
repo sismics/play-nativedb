@@ -126,6 +126,29 @@ public abstract class BaseDao<T, C> {
         return !list.isEmpty() ? list.iterator().next() : null;
     }
 
+    /**
+     * Get the number of items by criteria.
+     *
+     * @param criteria Search criteria
+     * @return The number of items
+     */
+    public long countByCriteria(C criteria) {
+        return countByCriteria(criteria, null);
+    }
+
+    /**
+     * Get the number of items by criteria.
+     *
+     * @param criteria Search criteria
+     * @param filterCriteria Filter criteria
+     * @return The number of items
+     */
+    public long countByCriteria(C criteria, FilterCriteria filterCriteria) {
+        PaginatedList<T> list = PaginatedLists.create();
+        PaginatedLists.executeCountQuery(list, getQueryParam(criteria, filterCriteria));
+        return list.getTotalRowCount();
+    }
+
     protected abstract QueryParam getQueryParam(C criteria, FilterCriteria filterCriteria);
 
 }

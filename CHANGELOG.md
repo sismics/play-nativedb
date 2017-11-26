@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.12.0 (2017-11-26)
+- Add count methods to base DAO 
 ### Version 0.11.0 (2017-11-22)
 - Add UUID and boolean filters 
 ### Version 0.10.1 (2017-10-05)
