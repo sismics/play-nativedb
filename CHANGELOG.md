@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.12.1 (2018-01-20)
+- Client-side sorting of non string properties
 ### Version 0.12.0 (2017-11-26)
 - Add count methods to base DAO 
 ### Version 0.11.0 (2017-11-22)
