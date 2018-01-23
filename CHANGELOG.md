@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.12.3 (2018-01-23)
+- Client-side filtering of non properties using introspection
 ### Version 0.12.2 (2018-01-23)
 - Client-side sorting of non properties using introspection
 ### Version 0.12.1 (2018-01-20)

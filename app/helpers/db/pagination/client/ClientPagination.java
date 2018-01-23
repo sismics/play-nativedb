@@ -85,9 +85,17 @@ public class ClientPagination {
         for (FilterColumn filterColumn : filterCriteria.getFilterColumnList()) {
             fullList = fullList.stream().filter(e -> {
                 try {
+                    // Try getting value with BeanUtils
                     return BeanUtils.getProperty(e, filterColumn.getColumn()).contains(filterColumn.getFilter());
                 } catch (Exception ex) {
-                    return true;
+                    // Try getting value with introspection
+                    try {
+                        // Try comparing with introspection
+                        return ReflectionUtil.getFieldValue(e, filterColumn.getColumn()).toString().contains(filterColumn.getFilter());
+                    } catch (Exception ex2) {
+                        // I don't know how to filter
+                        return true;
+                    }
                 }
             }).collect(Collectors.toList());
         }
