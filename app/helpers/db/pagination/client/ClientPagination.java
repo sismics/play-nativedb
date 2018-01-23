@@ -5,6 +5,7 @@ import helpers.db.filter.FilterColumn;
 import helpers.db.filter.FilterCriteria;
 import helpers.db.sort.SortColumn;
 import helpers.db.sort.SortCriteria;
+import helpers.reflection.ReflectionUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -43,20 +44,38 @@ public class ClientPagination {
     @SuppressWarnings("unchecked")
     private static <E> void doSortClient(List<E> fullList, SortCriteria sortCriteria) {
         for (SortColumn sortColumn : sortCriteria.getSortColumnList()) {
+            int sortDirection = sortColumn.getDirection() ? 1 : -1;
             fullList.sort((e1, e2) -> {
                 try {
+                    // Try comparing with BeanUtils
                     Object value1 = PropertyUtils.getProperty(e1, sortColumn.getPath());
                     if (value1 instanceof Comparable) {
                         return ((Comparable) value1)
                                 .compareTo(PropertyUtils.getProperty(e2, sortColumn.getPath()))
-                                * (sortColumn.getDirection() ? 1 : -1);
+                                * sortDirection;
                     } else {
                         return (BeanUtils.getProperty(e1, sortColumn.getPath()))
                                 .compareTo(BeanUtils.getProperty(e2, sortColumn.getPath()))
-                                * (sortColumn.getDirection() ? 1 : -1);
+                                * sortDirection;
                     }
-                } catch (Exception e) {
-                    return 0;
+                } catch (Exception ex1) {
+                    try {
+                        // Try comparing with introspection
+                        Object value1 = ReflectionUtil.getFieldValue(e1, sortColumn.getPath());
+                        Object value2 = ReflectionUtil.getFieldValue(e2, sortColumn.getPath());
+                        if (value1 instanceof Comparable) {
+                            return ((Comparable) value1)
+                                    .compareTo(value2)
+                                    * sortDirection;
+                        } else {
+                            return value1.toString()
+                                    .compareTo(value2.toString())
+                                    * sortDirection;
+                        }
+                    } catch (Exception ex2) {
+                        // I don't know how to sort
+                        return 0;
+                    }
                 }
             });
         }
