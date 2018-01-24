@@ -1,10 +1,13 @@
 package helpers.db.pagination.client;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import helpers.db.PaginatedList;
 import helpers.db.filter.FilterColumn;
 import helpers.db.filter.FilterCriteria;
 import helpers.db.sort.SortColumn;
 import helpers.db.sort.SortCriteria;
+import helpers.json.JsonUtil;
 import helpers.reflection.ReflectionUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -46,35 +49,45 @@ public class ClientPagination {
         for (SortColumn sortColumn : sortCriteria.getSortColumnList()) {
             int sortDirection = sortColumn.getDirection() ? 1 : -1;
             fullList.sort((e1, e2) -> {
-                try {
-                    // Try comparing with BeanUtils
-                    Object value1 = PropertyUtils.getProperty(e1, sortColumn.getPath());
-                    if (value1 instanceof Comparable) {
-                        return ((Comparable) value1)
-                                .compareTo(PropertyUtils.getProperty(e2, sortColumn.getPath()))
-                                * sortDirection;
-                    } else {
-                        return (BeanUtils.getProperty(e1, sortColumn.getPath()))
-                                .compareTo(BeanUtils.getProperty(e2, sortColumn.getPath()))
-                                * sortDirection;
-                    }
-                } catch (Exception ex1) {
+                if (e1 instanceof JsonObject) {
                     try {
-                        // Try comparing with introspection
-                        Object value1 = ReflectionUtil.getFieldValue(e1, sortColumn.getPath());
-                        Object value2 = ReflectionUtil.getFieldValue(e2, sortColumn.getPath());
+                        JsonElement value1 = JsonUtil.getPropertyValue(((JsonObject) e1), sortColumn.getPath());
+                        JsonElement value2 = JsonUtil.getPropertyValue(((JsonObject) e2), sortColumn.getPath());
+                        return value1.getAsString().compareTo(value2.getAsString()) * sortDirection;
+                    } catch (Exception ex0) {
+                        return 0;
+                    }
+                } else {
+                    try {
+                        // Try comparing with BeanUtils
+                        Object value1 = PropertyUtils.getProperty(e1, sortColumn.getPath());
                         if (value1 instanceof Comparable) {
                             return ((Comparable) value1)
-                                    .compareTo(value2)
+                                    .compareTo(PropertyUtils.getProperty(e2, sortColumn.getPath()))
                                     * sortDirection;
                         } else {
-                            return value1.toString()
-                                    .compareTo(value2.toString())
+                            return (BeanUtils.getProperty(e1, sortColumn.getPath()))
+                                    .compareTo(BeanUtils.getProperty(e2, sortColumn.getPath()))
                                     * sortDirection;
                         }
-                    } catch (Exception ex2) {
-                        // I don't know how to sort
-                        return 0;
+                    } catch (Exception ex1) {
+                        try {
+                            // Try comparing with introspection
+                            Object value1 = ReflectionUtil.getFieldValue(e1, sortColumn.getPath());
+                            Object value2 = ReflectionUtil.getFieldValue(e2, sortColumn.getPath());
+                            if (value1 instanceof Comparable) {
+                                return ((Comparable) value1)
+                                        .compareTo(value2)
+                                        * sortDirection;
+                            } else {
+                                return value1.toString()
+                                        .compareTo(value2.toString())
+                                        * sortDirection;
+                            }
+                        } catch (Exception ex2) {
+                            // I don't know how to sort
+                            return 0;
+                        }
                     }
                 }
             });
@@ -84,17 +97,26 @@ public class ClientPagination {
     private static <E> List<E> doFilterClient(List<E> fullList, FilterCriteria filterCriteria) {
         for (FilterColumn filterColumn : filterCriteria.getFilterColumnList()) {
             fullList = fullList.stream().filter(e -> {
-                try {
-                    // Try getting value with BeanUtils
-                    return BeanUtils.getProperty(e, filterColumn.getColumn()).contains(filterColumn.getFilter());
-                } catch (Exception ex) {
-                    // Try getting value with introspection
+                // Try getting value from JsonObject
+                if (e instanceof JsonObject) {
                     try {
-                        // Try comparing with introspection
-                        return ReflectionUtil.getFieldValue(e, filterColumn.getColumn()).toString().contains(filterColumn.getFilter());
-                    } catch (Exception ex2) {
-                        // I don't know how to filter
+                        return JsonUtil.getPropertyValue(((JsonObject) e), filterColumn.getColumn()).toString().contains(filterColumn.getFilter());
+                    } catch (Exception ex0) {
                         return true;
+                    }
+                } else {
+                    try {
+                        // Try getting value with BeanUtils
+                        return BeanUtils.getProperty(e, filterColumn.getColumn()).contains(filterColumn.getFilter());
+                    } catch (Exception ex) {
+                        // Try getting value with introspection
+                        try {
+                            // Try comparing with introspection
+                            return ReflectionUtil.getFieldValue(e, filterColumn.getColumn()).toString().contains(filterColumn.getFilter());
+                        } catch (Exception ex2) {
+                            // I don't know how to filter
+                            return true;
+                        }
                     }
                 }
             }).collect(Collectors.toList());
