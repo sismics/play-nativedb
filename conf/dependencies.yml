@@ -1,5 +1,5 @@
-self: play -> nativedb 0.12.3
+self: play -> nativedb 0.12.4
 
 require:
     - play
-    - com.google.guava -> guava 22.0
+    - com.google.guava -> guava 23.5-jre
