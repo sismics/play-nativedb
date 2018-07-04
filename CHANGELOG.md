@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.13.0 (2018-07-04)
+- Query persistence units other than default
 ### Version 0.12.4 (2018-01-24)
 - Client-side sorting+filtering of JSON objects
 ### Version 0.12.3 (2018-01-23)

@@ -20,8 +20,16 @@ import java.util.UUID;
 public class Query {
     private javax.persistence.Query jpaQuery;
 
+    public Query(String persistenceUnit, String queryString) {
+        jpaQuery = createQuery(persistenceUnit, queryString);
+    }
+
     public Query(String queryString) {
-        jpaQuery = JPA.em().createNativeQuery(queryString);
+        this(JPA.DEFAULT, queryString);
+    }
+
+    private javax.persistence.Query createQuery(String persistenceUnit, String queryString) {
+        return JPA.em(persistenceUnit).createNativeQuery(queryString);
     }
 
     public Query setParameter(String key, String value) {

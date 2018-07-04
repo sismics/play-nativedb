@@ -29,6 +29,17 @@ public class Db {
         return new Query(queryString);
     }
 
+    /**
+     * Build a new native (SQL) query.
+     *
+     * @param peristenceUnit The peristence unit
+     * @param queryString The query string
+     * @return The query
+     */
+    public static Query query(String peristenceUnit, String queryString) {
+        return new Query(peristenceUnit, queryString);
+    }
+
     public static String getDateTrunc(String field) {
         if (isDriverH2()) {
             return "parsedatetime (year(" + field + ") || '-' || month(" + field + ") || '-' || day(" + field + "), 'yyyy-MM-dd')";
