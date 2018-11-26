@@ -3,13 +3,17 @@ package helpers.db.query;
 import helpers.db.Db;
 import helpers.db.dialect.H2UUIDType;
 import helpers.reflection.ReflectionUtil;
+import org.hibernate.QueryException;
+import org.hibernate.engine.spi.TypedValue;
 import org.hibernate.internal.AbstractQueryImpl;
 import org.hibernate.internal.SQLQueryImpl;
 import org.hibernate.type.StandardBasicTypes;
 import play.db.jpa.JPA;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -90,6 +94,22 @@ public class Query {
         }
     }
 
+    public static void setParameterUUIDCollection(AbstractQueryImpl query, String key, Collection value) {
+        if (Db.isDriverH2()) {
+            query.setParameterList(key, value);
+        } else if (Db.isDriverPostgresql()) {
+            if (value == null) {
+                throw new QueryException("Collection must be not null!");
+            } else {
+                Map<String, TypedValue> namedParameterLists = (Map<String, TypedValue>) ReflectionUtil.getFieldSingleValue(query, "namedParameterLists", AbstractQueryImpl.class);
+                if (value.size() == 0) {
+                    namedParameterLists.put(key, new TypedValue(null, null));
+                } else {
+                    namedParameterLists.put(key, new TypedValue(org.hibernate.type.PostgresUUIDType.INSTANCE, value));
+                }
+            }
+        }
+    }
 
     public Query setParameter(String key, Object value) {
         jpaQuery.setParameter(key, value);

@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.13.1 (2018-11-26)
+- Handle collections of UUIDs
 ### Version 0.13.0 (2018-07-04)
 - Query persistence units other than default
 ### Version 0.12.4 (2018-01-24)

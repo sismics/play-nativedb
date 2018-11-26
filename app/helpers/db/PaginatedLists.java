@@ -10,10 +10,7 @@ import org.hibernate.internal.SQLQueryImpl;
 import play.db.jpa.JPA;
 
 import javax.persistence.Query;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -281,6 +278,13 @@ public class PaginatedLists {
     private static void setParameter(Query query, String key, Object value) {
         if (value instanceof UUID) {
             helpers.db.query.Query.setParameterUUID((SQLQueryImpl) ReflectionUtil.getFieldValue(query, "query"), key, value);
+        } else if (value instanceof Collection){
+            Collection valueCollection = (Collection) value;
+            if (!valueCollection.isEmpty() && ((Collection) value).iterator().next() instanceof UUID) {
+                helpers.db.query.Query.setParameterUUIDCollection((SQLQueryImpl) ReflectionUtil.getFieldValue(query, "query"), key, valueCollection);
+            } else {
+                query.setParameter(key, value);
+            }
         } else {
             query.setParameter(key, value);
         }

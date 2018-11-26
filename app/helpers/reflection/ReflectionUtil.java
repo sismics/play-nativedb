@@ -40,8 +40,20 @@ public class ReflectionUtil {
      * @return The value
      */
     public static Object getFieldSingleValue(Object obj, String field) {
+        return getFieldSingleValue(obj, field, obj.getClass());
+    }
+
+    /**
+     * Get a field value.
+     *
+     * @param obj The object to introspect
+     * @param field The field to get
+     * @param clazz The class
+     * @return The value
+     */
+    public static Object getFieldSingleValue(Object obj, String field, Class clazz) {
         try {
-            Field f = obj.getClass().getDeclaredField(field);
+            Field f = clazz.getDeclaredField(field);
             f.setAccessible(true);
             return f.get(obj);
         } catch (Exception e) {
