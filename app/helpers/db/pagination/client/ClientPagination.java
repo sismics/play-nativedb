@@ -2,13 +2,13 @@ package helpers.db.pagination.client;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sismics.sapparot.reflection.ReflectionUtil;
 import helpers.db.PaginatedList;
 import helpers.db.filter.FilterColumn;
 import helpers.db.filter.FilterCriteria;
 import helpers.db.sort.SortColumn;
 import helpers.db.sort.SortCriteria;
 import helpers.json.JsonUtil;
-import helpers.reflection.ReflectionUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 

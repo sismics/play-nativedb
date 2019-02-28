@@ -3,3 +3,11 @@ self: play -> nativedb 0.13.1
 require:
     - play
     - com.google.guava -> guava 23.5-jre
+    - com.sismics.sapparot -> sapparot 1.2.0
+
+repositories:
+    - sismicsNexus:
+          type: iBiblio
+          root: "https://nexus.sismics.com/repository/com.sismics/"
+          contains:
+              - com.sismics.sapparot -> *

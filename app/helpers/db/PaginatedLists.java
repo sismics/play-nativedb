@@ -1,11 +1,11 @@
 package helpers.db;
 
+import com.sismics.sapparot.reflection.ReflectionUtil;
 import helpers.db.filter.FilterColumn;
 import helpers.db.filter.FilterCriteria;
 import helpers.db.pagination.client.ClientPagination;
 import helpers.db.sort.SortColumn;
 import helpers.db.sort.SortCriteria;
-import helpers.reflection.ReflectionUtil;
 import org.hibernate.internal.SQLQueryImpl;
 import play.db.jpa.JPA;
 

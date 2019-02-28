@@ -1,8 +1,8 @@
 package helpers.db.query;
 
+import com.sismics.sapparot.reflection.ReflectionUtil;
 import helpers.db.Db;
 import helpers.db.dialect.H2UUIDType;
-import helpers.reflection.ReflectionUtil;
 import org.hibernate.QueryException;
 import org.hibernate.engine.spi.TypedValue;
 import org.hibernate.internal.AbstractQueryImpl;
