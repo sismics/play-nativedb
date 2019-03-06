@@ -20,7 +20,7 @@ public class PaginatedList<T> {
     private List<T> list;
 
     public PaginatedList(int limit, int offset) {
-        this.list = new ArrayList<T>();
+        this.list = new ArrayList<>();
         this.totalRowCount = 0;
         this.limit = limit;
         this.offset = offset;

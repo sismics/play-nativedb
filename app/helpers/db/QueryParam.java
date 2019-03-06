@@ -51,7 +51,7 @@ public class QueryParam {
      * Constructor of QueryParam.
      *
      * @param queryString Query string
-     * @param queryString Query criteria
+     * @param criteriaList Query criteria
      * @param parameterMap Query parameters
      * @param groupByList Group by criteria
      */
@@ -69,7 +69,7 @@ public class QueryParam {
      * Constructor of QueryParam.
      *
      * @param queryString Query string
-     * @param queryString Query criteria
+     * @param criteriaList Query criteria
      * @param parameterMap Query parameters
      */
     public QueryParam(String queryString, List<String> criteriaList, Map<String, Object> parameterMap, FilterCriteria filterCriteria, ResultMapper resultMapper) {
