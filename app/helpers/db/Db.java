@@ -6,6 +6,8 @@ import org.hibernate.internal.SessionImpl;
 import play.Play;
 import play.db.jpa.JPA;
 
+import javax.persistence.EntityTransaction;
+
 /**
  * @author jtremeaux
  */
@@ -136,14 +138,56 @@ public class Db {
         return value.replaceAll("([%_])", "\\$1");
     }
 
+    /**
+     * Get the current transaction.
+     *
+     * @return The current transaction
+     */
+    public static EntityTransaction getTransaction() {
+        return JPA.em().getTransaction();
+    }
+
+    /**
+     * Rollback the current transaction, and start a new one.
+     *
+     */
+    public static void rollbackTransaction() {
+        getTransaction().rollback();
+        getTransaction().begin();
+    }
+
+    /**
+     * Commit the current transaction, and start a new one.
+     *
+     */
+    public static void commitTransaction() {
+        getTransaction().rollback();
+        getTransaction().begin();
+    }
+
+    /**
+     * Get the current driver name.
+     *
+     * @return The driver name
+     */
     public static String getDriver() {
         return Play.configuration.getProperty("db.driver");
     }
 
+    /**
+     * Checks if the driver is H2.
+     *
+     * @return The condition
+     */
     public static boolean isDriverH2() {
         return getDriver().contains("h2");
     }
 
+    /**
+     * Checks if the driver is PostgreSQL.
+     *
+     * @return The condition
+     */
     public static boolean isDriverPostgresql() {
         String driver = getDriver();
         return driver.contains("postgresql");
