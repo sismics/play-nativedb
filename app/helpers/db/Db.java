@@ -46,7 +46,7 @@ public class Db {
         if (isDriverH2()) {
             return "parsedatetime (year(" + field + ") || '-' || month(" + field + ") || '-' || day(" + field + "), 'yyyy-MM-dd')";
         } else if (isDriverPostgresql()) {
-            return "date_trunc('days', " + field + ")";
+            return "date_trunc('day', cast(" + field + " as timestamp))";
         } else {
             throw new RuntimeException("Unknown DB: " + getDriver());
         }
@@ -56,7 +56,7 @@ public class Db {
         if (isDriverH2()) {
             return "parsedatetime (year(" + field + ") || '-' || month(" + field + ") || '-' || day(" + field + ") || ' ' || hour(" + field + ")  || ':' || minute(" + field + ") || ':' || second(" + field + "), 'yyyy-MM-dd hh:mm:ss')";
         } else if (isDriverPostgresql()) {
-            return "date_trunc('seconds', " + field + ")";
+            return "date_trunc('second', cast(" + field + " as timestamp))";
         } else {
             throw new RuntimeException("Unknown DB: " + getDriver());
         }
@@ -66,7 +66,7 @@ public class Db {
         if (Db.isDriverH2()) {
             return "year(" + field + ")";
         } else if (Db.isDriverPostgresql()) {
-            return "date_trunc('year', " + field + ")";
+            return "date_trunc('year', cast(" + field + " as timestamp))";
         } else {
             throw new RuntimeException("Unknown DB: " + Db.getDriver());
         }
@@ -76,7 +76,7 @@ public class Db {
         if (Db.isDriverH2()) {
             return "parsedatetime (year(" + field + ") || '-' || month(" + field + ") || '-01', 'yyyy-MM-dd')";
         } else if (Db.isDriverPostgresql()) {
-            return "date_trunc('month', " + field + ")";
+            return "date_trunc('month', cast(" + field + " as timestamp))";
         } else {
             throw new RuntimeException("Unknown DB: " + Db.getDriver());
         }
@@ -86,7 +86,7 @@ public class Db {
         if (Db.isDriverH2()) {
             return "week(" + field + ")";
         } else if (Db.isDriverPostgresql()) {
-            return "date_trunc('week', " + field + ")";
+            return "date_trunc('week', cast(" + field + " as timestamp))";
         } else {
             throw new RuntimeException("Unknown DB: " + Db.getDriver());
         }
