@@ -1,4 +1,6 @@
 ## Change Log
+### Version 0.16.0 (2019-04-04)
+- PGSQL fix for date_trunc
 ### Version 0.15.0 (2019-03-27)
 - Add null filter column
 ### Version 0.14.0 (2019-03-06)
