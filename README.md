@@ -22,14 +22,14 @@ It uses the native JPA API internally and doesn't require any other library.
 
 ```
 require:
-    - nativedb -> nativedb 0.16.0
+    - nativedb -> nativedb 1.0.0
 
 repositories:
-    - nativedb:
-        type:       http
-        artifact:   "http://release.sismics.com/repo/play/[module]-[revision].zip"
+    - sismicsNexusRaw:
+        type: http
+        artifact: "https://nexus.sismics.com/repository/sismics/[module]-[revision].zip"
         contains:
-            - nativedb -> *
+          - nativedb -> *
 ```
 
 # Enable the admin console

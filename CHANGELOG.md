@@ -1,4 +1,6 @@
 ## Change Log
+### Version 1.0.0 (2019-04-05)
+- Automate release
 ### Version 0.16.0 (2019-04-04)
 - PGSQL fix for date_trunc
 ### Version 0.15.0 (2019-03-27)
