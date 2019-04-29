@@ -1,4 +1,6 @@
 ## Change Log
+### Version 1.1.0 (2019-04-29)
+- Upgrade to Play 1.5.3
 ### Version 1.0.0 (2019-04-05)
 - Automate release
 ### Version 0.16.0 (2019-04-04)

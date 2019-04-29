@@ -11,8 +11,8 @@ import java.util.concurrent.ExecutionException;
 
 public class CappedEventStream<T> {
     final int bufferSize;
-    final ConcurrentLinkedQueue<T> events = new ConcurrentLinkedQueue();
-    final List<F.Promise<T>> waiting = Collections.synchronizedList(new ArrayList());
+    final ConcurrentLinkedQueue<T> events = new ConcurrentLinkedQueue<>();
+    final List<F.Promise<T>> waiting = Collections.synchronizedList(new ArrayList<>());
 
     public CappedEventStream() {
         this.bufferSize = 100;
@@ -24,11 +24,11 @@ public class CappedEventStream<T> {
 
     public synchronized F.Promise<T> nextEvent() {
         if (this.events.isEmpty()) {
-            CappedEventStream<T>.LazyTask task = new CappedEventStream.LazyTask();
+            CappedEventStream<T>.LazyTask task = new CappedEventStream<T>.LazyTask();
             this.waiting.add(task);
             return task;
         } else {
-            return new CappedEventStream.LazyTask(this.events.peek());
+            return new CappedEventStream<T>.LazyTask(this.events.peek());
         }
     }
 
@@ -43,10 +43,10 @@ public class CappedEventStream<T> {
 
     void notifyNewEvent() {
         T value = this.events.peek();
-        Iterator var2 = this.waiting.iterator();
+        Iterator<F.Promise<T>> it = this.waiting.iterator();
 
-        while(var2.hasNext()) {
-            F.Promise<T> task = (F.Promise)var2.next();
+        while (it.hasNext()) {
+            F.Promise<T> task = it.next();
             task.invoke(value);
         }
 

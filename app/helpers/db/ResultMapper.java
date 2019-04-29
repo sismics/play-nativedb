@@ -9,6 +9,7 @@ import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.sql.Clob;
 import java.util.Date;
 import java.util.List;
@@ -131,7 +132,7 @@ public abstract class ResultMapper<T> {
         try {
             InputStream in = clob.getAsciiStream();
             StringWriter w = new StringWriter();
-            IOUtils.copy(in, w);
+            IOUtils.copy(in, w, Charset.defaultCharset());
             return w.toString();
         } catch (Exception e) {
             throw new RuntimeException("Error reading clob", e);

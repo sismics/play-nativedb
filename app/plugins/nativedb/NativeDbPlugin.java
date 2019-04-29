@@ -2,7 +2,7 @@ package plugins.nativedb;
 
 import helpers.db.PaginatedLists;
 import helpers.nativedb.CappedEventStream;
-import org.hibernate.ejb.QueryImpl;
+import org.hibernate.query.internal.QueryImpl;
 import play.Play;
 import play.PlayPlugin;
 import play.mvc.Router;
@@ -31,7 +31,7 @@ public class NativeDbPlugin extends PlayPlugin {
 
     public String getLog(QueryImpl query) {
         try {
-            String queryString = query.getHibernateQuery().getQueryString();
+            String queryString = query.getQueryString();
             for (Object parameter : query.getParameters()) {
                 Parameter param = (Parameter) parameter;
                 queryString = queryString.replaceFirst(":" + param.getName(), getReplacement(query.getParameterValue(param.getName())));

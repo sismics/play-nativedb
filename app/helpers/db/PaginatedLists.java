@@ -1,12 +1,11 @@
 package helpers.db;
 
-import com.sismics.sapparot.reflection.ReflectionUtil;
 import helpers.db.filter.FilterColumn;
 import helpers.db.filter.FilterCriteria;
 import helpers.db.pagination.client.ClientPagination;
 import helpers.db.sort.SortColumn;
 import helpers.db.sort.SortCriteria;
-import org.hibernate.internal.SQLQueryImpl;
+import org.hibernate.query.internal.NativeQueryImpl;
 import play.db.jpa.JPA;
 
 import javax.persistence.Query;
@@ -276,12 +275,10 @@ public class PaginatedLists {
     }
 
     private static void setParameter(Query query, String key, Object value) {
-        if (value instanceof UUID) {
-            helpers.db.query.Query.setParameterUUID((SQLQueryImpl) ReflectionUtil.getFieldValue(query, "query"), key, value);
-        } else if (value instanceof Collection){
+        if (value instanceof Collection){
             Collection valueCollection = (Collection) value;
             if (!valueCollection.isEmpty() && ((Collection) value).iterator().next() instanceof UUID) {
-                helpers.db.query.Query.setParameterUUIDCollection((SQLQueryImpl) ReflectionUtil.getFieldValue(query, "query"), key, valueCollection);
+                helpers.db.query.Query.setParameterUUIDCollection((NativeQueryImpl) query, key, valueCollection);
             } else {
                 query.setParameter(key, value);
             }

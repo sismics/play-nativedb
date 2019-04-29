@@ -6,10 +6,9 @@ import org.hibernate.type.descriptor.ValueExtractor;
 import org.hibernate.type.descriptor.WrapperOptions;
 import org.hibernate.type.descriptor.java.JavaTypeDescriptor;
 import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
-import org.hibernate.type.descriptor.sql.BasicBinder;
-import org.hibernate.type.descriptor.sql.BasicExtractor;
 import org.hibernate.type.descriptor.sql.SqlTypeDescriptor;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +18,7 @@ public class PostgresUUIDType extends AbstractSingleColumnStandardBasicType<UUID
     public static final PostgresUUIDType INSTANCE = new PostgresUUIDType();
 
     public PostgresUUIDType() {
-        super(PostgresUUIDType.PostgresUUIDSqlTypeDescriptor.INSTANCE, UUIDTypeDescriptor.INSTANCE);
+        super(PostgresUUIDSqlTypeDescriptor.INSTANCE, UUIDTypeDescriptor.INSTANCE);
     }
 
     public String getName() {
@@ -27,7 +26,7 @@ public class PostgresUUIDType extends AbstractSingleColumnStandardBasicType<UUID
     }
 
     public static class PostgresUUIDSqlTypeDescriptor implements SqlTypeDescriptor {
-        public static final PostgresUUIDType.PostgresUUIDSqlTypeDescriptor INSTANCE = new PostgresUUIDType.PostgresUUIDSqlTypeDescriptor();
+        public static final PostgresUUIDSqlTypeDescriptor INSTANCE = new PostgresUUIDSqlTypeDescriptor();
 
         public PostgresUUIDSqlTypeDescriptor() {
         }
@@ -41,17 +40,34 @@ public class PostgresUUIDType extends AbstractSingleColumnStandardBasicType<UUID
         }
 
         public <X> ValueBinder<X> getBinder(final JavaTypeDescriptor<X> javaTypeDescriptor) {
-            return new BasicBinder<X>(javaTypeDescriptor, this) {
-                protected void doBind(PreparedStatement st, X value, int index, WrapperOptions options) throws SQLException {
-                    st.setObject(index, javaTypeDescriptor.unwrap(value, UUID.class, options), PostgresUUIDType.PostgresUUIDSqlTypeDescriptor.this.getSqlType());
+            return new ValueBinder<X>() {
+                @Override
+                public void bind(PreparedStatement preparedStatement, X x, int i, WrapperOptions wrapperOptions) throws SQLException {
+
+                }
+
+                @Override
+                public void bind(CallableStatement st, X value, String s, WrapperOptions options) throws SQLException {
+                    st.setObject(PostgresUUIDSqlTypeDescriptor.this.getSqlType(), javaTypeDescriptor.unwrap(value, UUID.class, options));
                 }
             };
         }
 
         public <X> ValueExtractor<X> getExtractor(final JavaTypeDescriptor<X> javaTypeDescriptor) {
-            return new BasicExtractor<X>(javaTypeDescriptor, this) {
-                protected X doExtract(ResultSet rs, String name, WrapperOptions options) throws SQLException {
+            return new ValueExtractor<X>() {
+                @Override
+                public X extract(ResultSet rs, String name, WrapperOptions options) throws SQLException {
                     return javaTypeDescriptor.wrap(rs.getObject(name), options);
+                }
+
+                @Override
+                public X extract(CallableStatement callableStatement, int i, WrapperOptions wrapperOptions) throws SQLException {
+                    return null;
+                }
+
+                @Override
+                public X extract(CallableStatement callableStatement, String[] strings, WrapperOptions wrapperOptions) throws SQLException {
+                    return null;
                 }
             };
         }

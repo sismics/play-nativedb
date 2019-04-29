@@ -1,6 +1,6 @@
 package helpers.db.dialect;
 
-import org.hibernate.metamodel.spi.TypeContributions;
+import org.hibernate.boot.model.TypeContributions;
 import org.hibernate.service.ServiceRegistry;
 
 public class PostgreSQLFixedDialect extends org.hibernate.dialect.PostgreSQL82Dialect {

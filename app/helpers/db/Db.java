@@ -1,7 +1,6 @@
 package helpers.db;
 
 import helpers.db.query.Query;
-import org.hibernate.ejb.EntityManagerImpl;
 import org.hibernate.internal.SessionImpl;
 import play.Play;
 import play.db.jpa.JPA;
@@ -18,7 +17,7 @@ public class Db {
      * @return The Hibernate session
      */
     public static SessionImpl getSession() {
-        return (SessionImpl) ((EntityManagerImpl) JPA.em()).getSession();
+        return (SessionImpl) JPA.em();
     }
 
     /**
