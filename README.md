@@ -22,7 +22,7 @@ It uses the native JPA API internally and doesn't require any other library.
 
 ```
 require:
-    - nativedb -> nativedb 1.0.0
+    - nativedb -> nativedb 1.1.1
 
 repositories:
     - sismicsNexusRaw:

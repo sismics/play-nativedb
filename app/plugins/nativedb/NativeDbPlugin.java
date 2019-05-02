@@ -1,7 +1,7 @@
 package plugins.nativedb;
 
 import helpers.db.PaginatedLists;
-import helpers.nativedb.CappedEventStream;
+import helpers.stream.CappedEventStream;
 import org.hibernate.query.internal.QueryImpl;
 import play.Play;
 import play.PlayPlugin;
