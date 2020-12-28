@@ -1,3 +1,6 @@
+[![GitHub release](https://img.shields.io/github/release/sismics/play-nativedb.svg?style=flat-square)](https://github.com/sismics/play-nativedb/releases/latest)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # play-nativedb plugin
 
 This module provides a native DB subsystem for Play! Framework 1 REST applications.
@@ -22,7 +25,7 @@ It uses the native JPA API internally and doesn't require any other library.
 
 ```
 require:
-    - nativedb -> nativedb 1.1.1
+    - nativedb -> nativedb 1.2.0
 
 repositories:
     - sismicsNexusRaw:
